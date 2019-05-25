@@ -2,6 +2,7 @@
 	"name": "beewriteversion",
 	"displayName": "beewriteversion",
 	"description": "补充上html版本号",
+	"publisher": "ameol",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.34.0"
