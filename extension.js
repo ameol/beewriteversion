@@ -1,4 +1,3 @@
-
 const vscode = require('vscode');
 const fs = require('fs');
 
@@ -20,9 +19,10 @@ function activate(context) {
 
 	let disposable = vscode.commands.registerCommand('extension.writeVersion', function () {
 		const includes = vscode.workspace.getConfiguration('writeVersion').get('includes')
-		const filePath = vscode.window.activeTextEditor.document.uri.path;
+    const filePath = vscode.window.activeTextEditor.document.uri.fsPath;
+    
 		const suffix = filePath.substr(filePath.lastIndexOf('.') + 1);
-		const fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.'));
+		const fileName = filePath.substring(filePath.lastIndexOf('\\') + 1, filePath.lastIndexOf('.'));
 		if (includes && includes.length && ['css', 'js'].includes(suffix)) {
 			let isInclude = false
 			for (let i=0; i<includes.length; i++) {
@@ -37,7 +37,7 @@ function activate(context) {
 		if (suffix === 'js') {
 			writeHtmlVersion(filePath.replace('.js', '.html'), 'js', fileName);
 		} else if (suffix === 'css') {
-			writeHtmlVersion(filePath.replace(/\/css\/(\w+).css/, '/$1.html'), 'css', fileName);
+			writeHtmlVersion(filePath.replace(/\\css\\(\w+).css/, '\\$1.html'), 'css', fileName);
 		}
 		
 		vscode.commands.executeCommand('workbench.action.files.save');
