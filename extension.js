@@ -31,7 +31,10 @@ function activate(context) {
 					break;
 				}
 			}
-			if (!isInclude) return false;
+			if (!isInclude) {
+				vscode.commands.executeCommand('workbench.action.files.save');
+				return false;
+			}
 		}
 		
 		if (suffix === 'js') {
