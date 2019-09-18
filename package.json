@@ -1,0 +1,67 @@
+{
+	"name": "beewriteversion",
+	"displayName": "beewriteversion",
+	"description": "补充上html版本号",
+	"publisher": "ameol",
+	"version": "0.0.7",
+	"engines": {
+		"vscode": "^1.34.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.writeVersion"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.writeVersion",
+				"title": "Hello World"
+			}
+		],
+		"keybindings": {
+			"command": "extension.writeVersion",
+			"win": "ctrl+s",
+			"mac": "cmd+s",
+			"when": "editorTextFocus"
+		},
+		"configuration": {
+			"title": "write-version",
+			"properties": {
+				"writeVersion.needVersion": {
+					"type": "boolean",
+					"default": false,
+					"description": "是否在js，css对应的html写入时间戳版本号"
+				},
+				"writeVersion.needPageVers": {
+					"type": "boolean",
+					"default": true,
+					"description": "是否在body标签加入data-page-vers，安卓需要此属性清除缓存"
+				},
+				"writeVersion.includes": {
+					"type": "array",
+					"default": [],
+					"description": "所包含的要自动补上版本号的文件目录名"
+				},
+				"writeVersion.webAppPublishPath": {
+					"type": "string",
+					"default": "C:\\projectnew\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\hrbmbank\\",
+					"description": "eclipse发布目录webapp根路径名"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"eslint": "^5.13.0",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	}
+}
