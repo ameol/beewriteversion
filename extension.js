@@ -1,7 +1,6 @@
 const vscode = require('vscode');
 const fs = require('fs');
 const webAppPublishPath = vscode.workspace.getConfiguration('writeVersion').get('webAppPublishPath');
-const needVersion = vscode.workspace.getConfiguration('writeVersion').get('needVersion');
 const needPageVers = vscode.workspace.getConfiguration('writeVersion').get('needPageVers');
 
 function dateFormat(fmt, date) {
@@ -24,15 +23,11 @@ function dateFormat(fmt, date) {
     return fmt;
 }
 function writeHtmlVersion(filePath, suffix, fileName) {
-	if (!needVersion && !needPageVers) {
+	if (!needPageVers) {
 		return;
 	}
 	try {
 		let file = fs.readFileSync(filePath).toString();
-		if (needVersion) {
-			var t = new RegExp('(' + fileName + ').(' + suffix + ')(\\??.*)(\"|\')');
-			file = file.replace(t, '$1.$2?v=' + new Date().getTime() + '$4');
-		}
 		if (needPageVers) {
 			file = file.replace(/(data-page-vers)="(\d+)"/, '$1="' + dateFormat('YYYYmmddHHMM', new Date()) + '"');
 		}
@@ -52,7 +47,7 @@ function copyFile(sourcePath) {
 	readStream.pipe(writeStream);
 }
 function getTargetPath(sourcePath) {
-	return sourcePath.replace(/.+\\webapp\\(\w+)/, webAppPublishPath + '$1');
+	return sourcePath.replace(/.+\/webapp\/(\w+)/, webAppPublishPath + '$1');
 }
 /**
  * @param {vscode.ExtensionContext} context
@@ -61,12 +56,12 @@ function activate(context) {
 
 	let disposable = vscode.commands.registerCommand('extension.writeVersion', function () {
 		let includes = vscode.workspace.getConfiguration('writeVersion').get('includes');
-		includes = includes && includes.length ? includes : ['\\page\\'];
+		includes = includes && includes.length ? includes : ['\/page\/'];
 		
     	const filePath = vscode.window.activeTextEditor.document.uri.fsPath;
     
 		const suffix = filePath.substr(filePath.lastIndexOf('.') + 1);
-		const fileName = filePath.substring(filePath.lastIndexOf('\\') + 1, filePath.lastIndexOf('.'));
+		const fileName = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
 		if (includes && includes.length && ['css', 'js'].includes(suffix)) {
 			let isInclude = false
 			for (let i=0; i<includes.length; i++) {
@@ -86,7 +81,7 @@ function activate(context) {
 		if (suffix === 'js') {
 			writeHtmlVersion(filePath.replace('.js', '.html'), 'js', 'ytfw');
 		} else if (suffix === 'css') {
-			writeHtmlVersion(filePath.replace(/\\css\\(\w+).css/, '\\$1.html'), 'css', fileName);
+			writeHtmlVersion(filePath.replace(/\/css\/(\w+).css/, '\/$1.html'), 'css', fileName);
 		}
 		vscode.commands.executeCommand('workbench.action.files.save').then(function() {
 			copyFile(filePath);
