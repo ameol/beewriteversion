@@ -79,6 +79,9 @@ function activate(context) {
             vscode.commands.executeCommand('workbench.action.files.save').then(function() {
                 copyFile(filePath);
             });
+        } else {
+            vscode.commands.executeCommand('workbench.action.files.save').then(function() {
+            });
         }
 	});
 
