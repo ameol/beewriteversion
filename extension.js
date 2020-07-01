@@ -62,22 +62,17 @@ function activate(context) {
     
 		const suffix = filePath.substr(filePath.lastIndexOf('.') + 1);
 		const fileName = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
-		if (includes && includes.length && ['css', 'js'].includes(suffix)) {
-			let isInclude = false
-			for (let i=0; i<includes.length; i++) {
-				if (~filePath.indexOf(includes[i])) {
-					isInclude = true;
-					break;
-				}
-			}
-			if (!isInclude) {
-				vscode.commands.executeCommand('workbench.action.files.save').then(function() {
-					copyFile(filePath);
-				});;
-				return false;
-			}
-		}
 		
+        let isInclude = false
+        for (let i=0; i<includes.length; i++) {
+            if (~filePath.indexOf(includes[i])) {
+                isInclude = true;
+                break;
+            }
+        }
+        if (!isInclude) {
+            return false;
+        }
 		if (suffix === 'js') {
 			writeHtmlVersion(filePath.replace('.js', '.html'), 'js', 'ytfw');
 		} else if (suffix === 'css') {
