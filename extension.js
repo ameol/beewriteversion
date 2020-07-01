@@ -70,17 +70,16 @@ function activate(context) {
                 break;
             }
         }
-        if (!isInclude) {
-            return false;
+        if (isInclude) {
+            if (suffix === 'js') {
+                writeHtmlVersion(filePath.replace('.js', '.html'), 'js', 'ytfw');
+            } else if (suffix === 'css') {
+                writeHtmlVersion(filePath.replace(/\/css\/(\w+).css/, '\/$1.html'), 'css', fileName);
+            }
+            vscode.commands.executeCommand('workbench.action.files.save').then(function() {
+                copyFile(filePath);
+            });
         }
-		if (suffix === 'js') {
-			writeHtmlVersion(filePath.replace('.js', '.html'), 'js', 'ytfw');
-		} else if (suffix === 'css') {
-			writeHtmlVersion(filePath.replace(/\/css\/(\w+).css/, '\/$1.html'), 'css', fileName);
-		}
-		vscode.commands.executeCommand('workbench.action.files.save').then(function() {
-			copyFile(filePath);
-		});
 	});
 
 	context.subscriptions.push(disposable);
