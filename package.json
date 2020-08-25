@@ -1,9 +1,9 @@
 {
 	"name": "beewriteversion",
 	"displayName": "beewriteversion",
-	"description": "补充上html版本号",
+	"description": "win热更新，补充上html版本号",
 	"publisher": "ameol",
-	"version": "0.0.7",
+	"version": "0.0.11",
 	"engines": {
 		"vscode": "^1.34.0"
 	},
@@ -30,11 +30,6 @@
 		"configuration": {
 			"title": "write-version",
 			"properties": {
-				"writeVersion.needVersion": {
-					"type": "boolean",
-					"default": false,
-					"description": "是否在js，css对应的html写入时间戳版本号"
-				},
 				"writeVersion.needPageVers": {
 					"type": "boolean",
 					"default": true,
