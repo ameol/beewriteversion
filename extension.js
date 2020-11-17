@@ -29,7 +29,7 @@ function writeHtmlVersion(filePath, suffix, fileName) {
 	try {
 		let file = fs.readFileSync(filePath).toString();
 		if (needPageVers) {
-			file = file.replace(/(data-page-vers)="(\d+)"/, '$1="' + dateFormat('YYYYmmddHHMM', new Date()) + '"');
+			file = file.replace(/(data-page-vers)="([\d\_\-\w]+)"/, '$1="' + dateFormat('YYYYmmddHHMM', new Date()) + '"');
 		}
 		
 		const bf = Buffer.from(file);
